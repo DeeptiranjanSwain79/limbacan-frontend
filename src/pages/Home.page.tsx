@@ -42,7 +42,13 @@ const HomePage = () => {
             <Card
               key={index}
               variant="outlined"
-              sx={{ borderRadius: 2, "&:hover": { boxShadow: 3 } }}
+              sx={{
+                borderRadius: 2,
+                "&:hover": { boxShadow: 3 },
+                textDecoration: "none",
+              }}
+              component={Link}
+              to={card.path}
             >
               <CardActionArea component={Link} to={card.path}>
                 <CardContent
