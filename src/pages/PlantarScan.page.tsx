@@ -36,13 +36,14 @@ const PlantarScanPage = () => {
   const [bloodGroup, setBloodGroup] = useState("");
   const [smoker, setSmoker] = useState(false);
   const [drinker, setDrinker] = useState(false);
+  const [scanned, setScanned] = useState(false);
 
   const handleAnalyze = async () => {
     try {
       setError("");
       setResult(null);
       setLoading(true);
-      const result = await analyzeImageApi(leftFoot!, rightFoot!);
+      const result = await analyzeImageApi(leftFoot!, rightFoot!, scanned);
       setResult(result);
     } catch (error: any) {
       setError(error.message || "An unexpected error occurred");
@@ -301,6 +302,25 @@ const PlantarScanPage = () => {
         />
       </Box>
 
+      <Box sx={{ p: 2, textAlign: "center" }}>
+        <FormControlLabel
+          control={
+            <Switch
+              size="small"
+              checked={scanned}
+              onChange={(e) => setScanned(e.target.checked)}
+            />
+          }
+          label="Did you upload scanned images?"
+          sx={{
+            mr: 1,
+            "& .MuiFormControlLabel-label": {
+              fontSize: 13,
+            },
+          }}
+        />
+      </Box>
+
       {error && error.length > 0 && (
         <Container maxWidth="md">
           <Typography variant="body1" color="error" sx={{ mt: 2 }}>
@@ -310,8 +330,13 @@ const PlantarScanPage = () => {
       )}
 
       <Box sx={{ p: 2, textAlign: "center" }}>
-        <Button variant="contained" onClick={handleAnalyze} disabled={loading}>
-          {loading ? "Analyzing Pressure..." : "Analyze Foot Pressure"}
+        <Button
+          variant="contained"
+          onClick={handleAnalyze}
+          disabled={loading}
+          loading={loading}
+        >
+          Analyze Foot Pressure
         </Button>
       </Box>
       {result && (
